@@ -3,7 +3,6 @@
         "types": ["bun-types"],
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "sourceMap": true,
-        "strict": false,
+        "sourceMap": true
     },
 }
