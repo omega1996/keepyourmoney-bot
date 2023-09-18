@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm"
+import { Spending } from "./Spending"
 
 @Entity()
 export class User {
@@ -21,4 +22,7 @@ export class User {
     @Column('text',{default: 'en'})
     locale: string
 
+    @OneToMany(() => Spending, (spending) => spending.user, {nullable: true}) // note: we will create author property in the Photo class below
+    spendings: Spending[]
 }
+

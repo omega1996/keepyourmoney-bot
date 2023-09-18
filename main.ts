@@ -97,6 +97,39 @@ bot.action('locale_ru',async (ctx)=>{
     return
 })
 
+
+
+bot.settings(async (ctx) =>{
+
+    await getLocale(ctx.i18n, ctx.chat.id)
+
+    await ctx.reply(ctx.i18n.t('settings.choose'), {
+        reply_markup: {
+            inline_keyboard: [
+                [ 
+                    { text: ctx.i18n.t('settings.language'), callback_data: "locale_change" },
+                    { text: ctx.i18n.t('settings.category'), callback_data: "category" } ,
+                    { text: ctx.i18n.t('settings.currency'), callback_data: "currency" } ],
+            ]
+        },
+        
+        
+    });
+})
+
+bot.action('locale_change',async (ctx)=>{
+    await ctx.reply("Choose language! Выберите язык", {
+        reply_markup: {
+            inline_keyboard: [
+                [ { text: "English", callback_data: "locale_en" }, { text: "Русский", callback_data: "locale_ru" } ],
+            ]
+        },
+    });
+})
+
+
+
+
 bot.on(message('text'), async (ctx) => {
     const value = parseFloat(ctx.message.text)
     await getLocale(ctx.i18n, ctx.chat.id)
@@ -108,10 +141,8 @@ bot.on(message('text'), async (ctx) => {
     else{
         const message = ctx.i18n.t('error.notNum')
         await ctx.reply(message)
-    }
-   
-  })
-
+    }  
+})
 
 
 

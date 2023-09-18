@@ -2,3 +2,5 @@ error:
   notNum: 'This is not a number, please provide number'
 currency:
   select: 'Please, select currency'
+settings:
+  choose: "Choose what you want to change"

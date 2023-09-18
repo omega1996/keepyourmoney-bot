@@ -2,3 +2,8 @@ error:
   notNum: 'Это не число, пожалуйста, введите число'
 currency:
   select: 'Выберите валюту'
+settings:
+  choose: "Что вы хотите изменить"
+  language: "Язык"
+  category: "Категории"
+  currency: "Валюты"
