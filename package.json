@@ -1,6 +1,6 @@
 {
   "name": "keepyourmoney-bot",
-  "dependencies": { "telegraf": "^4.13.1" },
+  "dependencies": { "telegraf": "^4.13.1", "telegraf-i18n": "^6.6.0" },
   "devDependencies": {
     "bun-types": "^1.0.2"
   },
