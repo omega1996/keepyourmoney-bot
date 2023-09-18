@@ -1,6 +1,6 @@
 import { AppDataSource } from "./src/data-source"
 import { User } from "./src/entity/User"
-import { Context, Telegraf } from 'telegraf'
+import { Context, Telegraf, session } from 'telegraf'
 import { message } from 'telegraf/filters'
 import TelegrafI18n, { I18n } from 'telegraf-i18n'
 
@@ -38,9 +38,9 @@ const i18n = new TelegrafI18n({
   })
 
 bot.use(i18n.middleware())
+bot.use(session())
 
 bot.start( async (ctx) => {
-    console.log(ctx.chat)
 
     let user = await AppDataSource.manager.findOneBy(User, {tg_id: ctx.chat.id})
 
@@ -48,10 +48,10 @@ bot.start( async (ctx) => {
         user = new User()
     }
 
+    user.tg_id = ctx.chat.id
     if(ctx.chat.type === 'private'){
         user.firstName = ctx.chat.first_name
         user.lastName = ctx.chat.last_name
-        user.tg_id = ctx.chat.id
         user.username = ctx.chat.username
     }
 
@@ -62,7 +62,9 @@ bot.start( async (ctx) => {
             inline_keyboard: [
                 [ { text: "English", callback_data: "locale_en" }, { text: "Русский", callback_data: "locale_ru" } ],
             ]
-        }
+        },
+        
+        
     });
 })
 
@@ -74,6 +76,12 @@ async function setLocale(chat_id, locale){
         await AppDataSource.manager.save(user)
     }
 } 
+
+
+async function getLocale(i18n: I18n, chat_id: number) {
+    const user = await AppDataSource.manager.findOneBy(User, {tg_id: chat_id})
+    i18n.locale(user.locale)
+}
 
 bot.action('locale_en',async (ctx)=>{
     await setLocale(ctx.chat.id, 'en')
@@ -88,6 +96,21 @@ bot.action('locale_ru',async (ctx)=>{
     await ctx.reply('Установлен русский язык')
     return
 })
+
+bot.on(message('text'), async (ctx) => {
+    const value = parseFloat(ctx.message.text)
+    await getLocale(ctx.i18n, ctx.chat.id)
+
+    if(value){
+        const message = ctx.i18n.t('currency.select')
+        await ctx.reply(message)
+    }
+    else{
+        const message = ctx.i18n.t('error.notNum')
+        await ctx.reply(message)
+    }
+   
+  })
 
 
 

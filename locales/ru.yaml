@@ -1,1 +1,4 @@
-hello: world
+error: 
+  notNum: 'Это не число, пожалуйста, введите число'
+currency:
+  select: 'Выберите валюту'

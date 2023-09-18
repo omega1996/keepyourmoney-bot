@@ -6,13 +6,13 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column('text')
+    @Column('text', {nullable: true, default: null})
     firstName: string
 
-    @Column('text')
+    @Column('text', {nullable: true, default: null})
     lastName: string
 
-    @Column('text')
+    @Column('text', {nullable: true, default: null})
     username: string
 
     @Column('integer')

@@ -1,1 +1,4 @@
-hello: world
+error: 
+  notNum: 'This is not a number, please provide number'
+currency:
+  select: 'Please, select currency'
